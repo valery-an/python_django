@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login Megano{% endblock %}
+
+{% block main %}
+  <div class="Middle Middle_top">
+    <div class="Middle-top">
+      <div class="wrap">
+        <div class="Middle-header">
+          <h1 class="Middle-title">Войти</h1>
+          <ul class="breadcrumbs Middle-breadcrumbs">
+            <li class="breadcrumbs-item"><a href="{% url 'main' %}">Главная</a></li>
+            <li class="breadcrumbs-item breadcrumbs-item_current">Войти</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="Section">
+      <div class="wrap">
+        <div class="Section-content" style="padding: 0 100px">
+          <div class="Login">
+            <form class="form" method="post">{% csrf_token %}
+              <div class="form-error">
+                {{ form.non_field_errors }}
+              </div>
+              {% for field in form %}
+              <div class="form-group" style="width: 320px">
+                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <div class="form-error">
+                  <ul class="error-list">
+                  {% for error in field.errors %}
+                    <li>{{ error|escape }}</li>
+                  {% endfor %}
+                  </ul>
+                </div>
+                {% endif %}
+              </div>
+              {% endfor %}
+              <div class="form-group">
+                <button class="btn btn_success" type="submit">Войти</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

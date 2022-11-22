@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Регистрация Megano{% endblock %}
+
+{% block main %}
+  <div class="Middle Middle_top">
+    <div class="Middle-top">
+      <div class="wrap">
+        <div class="Middle-header">
+          <h1 class="Middle-title">Регистрация</h1>
+          <ul class="breadcrumbs Middle-breadcrumbs">
+            <li class="breadcrumbs-item"><a href="{% url 'main' %}">Главная</a></li>
+            <li class="breadcrumbs-item breadcrumbs-item_current">Регистрация</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="Section">
+      <div class="wrap">
+        <div class="Section-content" style="padding: 0 100px">
+          <div class="Profile">
+            <form class="form Profile-form" method="post" enctype="multipart/form-data">{% csrf_token %}
+              <div class="form-error">
+                {{ form.non_field_errors }}
+              </div>
+              <div class="row">
+                <div class="row-block">
+                  <div class="form-group">
+                    <label class="form-label" for="{{ form.avatar.id_for_label }}">{{ form.avatar.label }}</label>
+                    <div class="Profile-avatar Profile-avatar_noimg">
+                      <div class="Profile-img"><img src="#" alt="avatar"/></div>
+                      <label class="Profile-fileLabel" for="{{ form.avatar.id_for_label }}">Выберите аватар</label>
+                      <input class="Profile-file form-input" id="{{ form.avatar.id_for_label }}" name="avatar" type="file"/>
+                    </div>
+                    {{ form.avatar.errors }}
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                    {{ form.first_name }}
+                    {{ form.first_name.errors }}
+                  </div>
+                </div>
+                <div class="row-block">
+                  {% for field in form.visible_fields|slice:"1:5" %}
+                  <div class="form-group">
+                    <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                    <div class="form-error">
+                      <ul class="error-list">
+                      {% for error in field.errors %}
+                        <li>{{ error|escape }}</li>
+                      {% endfor %}
+                      </ul>
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% endfor %}
+                  <div class="form-group">
+                    <div class="Profile-btn">
+                      <button class="btn btn_success" type="submit">Зарегистрироваться</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

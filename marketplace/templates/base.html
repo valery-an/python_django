@@ -61,17 +61,17 @@
             <div class="row ControlPanel-rowSplit">
               {% if request.user.is_authenticated %}
               <div class="row-block">
-                <a class="ControlPanel-title" href="#">Личный кабинет</a>
+                <a class="ControlPanel-title" href="{% url 'profile' %}">Личный кабинет</a>
               </div>
               <div class="row-block">
-                <a class="ControlPanel-title" href="#">Выйти</a>
+                <a class="ControlPanel-title" href="{% url 'logout' %}">Выйти</a>
               </div>
               {% else %}
               <div class="row-block">
-                <a class="ControlPanel-title" href="#">Войти</a>
+                <a class="ControlPanel-title" href="{% url 'login' %}">Войти</a>
               </div>
               <div class="row-block">
-                <a class="ControlPanel-title" href="#">Регистрация</a>
+                <a class="ControlPanel-title" href="{% url 'register' %}">Регистрация</a>
               </div>
               {% endif %}
             </div>
@@ -138,7 +138,7 @@
               <div class="CategoriesButton-link">
                 <a href="#">
                   <div class="CategoriesButton-icon">
-                    <img src="{{ category.icon_path }}" alt="icon"/>
+                    <img src="/{{ category.icon_path }}" alt="icon"/>
                   </div>
                   <span class="CategoriesButton-text">{{ category.name }}</span>
                 </a>
@@ -174,10 +174,8 @@
     </div>
   </header>
 
-  <div class="Middle">
-    {% block main %}
-    {% endblock %}
-  </div>
+  {% block main %}
+  {% endblock %}
 
   <footer class="Footer">
     <div class="wrap">
