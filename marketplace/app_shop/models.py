@@ -34,36 +34,14 @@ class Category(models.Model):
         verbose_name_plural = 'категории'
 
 
-class SubCategory(models.Model):
-    """ Модель подкатегории товара """
-    category = models.ForeignKey(Category, on_delete=models.CASCADE,
-                                 verbose_name='категория', related_name='subcategories')
-    name = models.CharField(max_length=100, verbose_name='название')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        db_table = 'product_subcategories'
-        ordering = ['category']
-        verbose_name = 'подкатегория'
-        verbose_name_plural = 'подкатегории'
-
-
 class Product(models.Model):
-    """
-    Модель товара. Связана с моделями
-    магазин :model:`app_shop.Shop`,
-    категория :model:`app_shop.Category`,
-    подкатегория :model:`app_shop.SubCategory`.
-    """
+    """ Модель товара """
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE,
                              verbose_name='бренд', related_name='products')
     category = models.ForeignKey(Category, on_delete=models.CASCADE,
                                  verbose_name='категория', related_name='products')
-    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, blank=True,
-                                    verbose_name='подкатегория', related_name='products')
     name = models.CharField(max_length=200, verbose_name='название')
+    short_description = models.CharField(max_length=10000, blank=True, verbose_name='краткое описание')
     description = models.TextField(max_length=100000, blank=True, verbose_name='описание')
     price = models.PositiveIntegerField(default=0, verbose_name='цена')
     image = models.ImageField(upload_to='goods/', default='goods/no_image.png', verbose_name='изображение')
