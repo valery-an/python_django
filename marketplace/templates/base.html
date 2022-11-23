@@ -61,7 +61,7 @@
             <div class="row ControlPanel-rowSplit">
               {% if request.user.is_authenticated %}
               <div class="row-block">
-                <a class="ControlPanel-title" href="{% url 'profile' %}">Личный кабинет</a>
+                <a class="ControlPanel-title" href="{% url 'account' %}">Личный кабинет</a>
               </div>
               <div class="row-block">
                 <a class="ControlPanel-title" href="{% url 'logout' %}">Выйти</a>
@@ -142,16 +142,6 @@
                   </div>
                   <span class="CategoriesButton-text">{{ category.name }}</span>
                 </a>
-                {% if category.subcategories.exists %}
-                <a class="CategoriesButton-arrow" href="#"></a>
-                <div class="CategoriesButton-submenu">
-                  {% for subcategory in category.subcategories.all %}
-                  <a class="CategoriesButton-link" href="#">
-                    <span class="CategoriesButton-text">{{ subcategory.name }}</span>
-                  </a>
-                  {% endfor %}
-                </div>
-                {% endif %}
               </div>
               {% endfor %}
             </div>

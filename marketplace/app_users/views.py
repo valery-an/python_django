@@ -37,6 +37,11 @@ def register_view(request):
 
 
 @login_required
+def account_view(request):
+    return render(request, 'users/account.html', context={'user': request.user})
+
+
+@login_required
 def profile_view(request):
     """ Страница редактирования профиля пользователя """
     if request.method == 'POST':
