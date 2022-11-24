@@ -38,6 +38,7 @@ def register_view(request):
 
 @login_required
 def account_view(request):
+    """ Страница личного кабинета пользователя """
     return render(request, 'users/account.html', context={'user': request.user})
 
 
@@ -46,14 +47,17 @@ def profile_view(request):
     """ Страница редактирования профиля пользователя """
     if request.method == 'POST':
         profile_form = ProfileForm(request.POST, request.FILES, instance=request.user)
-        password_form = PasswordEditForm(user=request.user)
-        if profile_form.is_valid():
+        password_form = PasswordEditForm(request.user, request.POST)
+        if profile_form.is_valid() and password_form.is_valid():
             profile_form.save()
+            password_form.save()
             messages.success(request, 'Профиль успешно сохранен')
             return redirect('profile')
         else:
             for field in profile_form.errors:
                 profile_form[field].field.widget.attrs['class'] += ' form-input_error'
+            for field in password_form.errors:
+                password_form[field].field.widget.attrs['class'] += ' form-input_error'
     else:
         profile_form = ProfileForm(instance=request.user)
         password_form = PasswordEditForm(user=request.user)
