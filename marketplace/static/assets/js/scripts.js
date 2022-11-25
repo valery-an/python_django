@@ -159,12 +159,12 @@ var form = function(){
                     validate = $this.data('validate'),
                     message = '',
                     error = false;
-                validate = validate.split(' ');
+                // validate = validate.split(' ');
                 validate.forEach(function(v){
                     switch (v){
                         case 'require':
                             if (!$this.val()) {
-                                message = 'Это поле обязательно для заполнения. ';
+                                message = 'Это поле обязательно для заполнения';
                                 error = true;
                             }
                             break;
@@ -172,7 +172,7 @@ var form = function(){
                             var val = $this.val().replace(' ', '');
                             val = val + '';
                             if (parseFloat(val)%2!==0) {
-                                message += 'Номер должен быть четным. ';
+                                message += 'Номер должен быть четным';
                                 error = true;
                             }
                             break;
@@ -634,6 +634,8 @@ var Profile = function(){
                     $thisAvatar.find('input[type="file"]').data('errorinput', false);
                 } else {
                     if (!$thisAvatar.next('.form-error').length){
+                        $thisAvatar.addClass('Profile-avatar_noimg');
+                        $thisAvatar.addClass('form-input_error');
                         $thisAvatar.find('input[type="file"]').data('errorinput', true);
                         $thisAvatar.after('<div class="form-error">Для загрузки допустимы лишь картинки с расширением png, jpg, gif</div>');
                     }

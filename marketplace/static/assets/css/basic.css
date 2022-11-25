@@ -403,25 +403,19 @@ textarea {
   justify-content: center;
   min-height: 42px;
   border: 1px solid #fff;
-  border-color: #fff;
   border-radius: 100px;
   background: #fff;
-  padding: 3px 15px;
+  padding: 3px 38px;
   line-height: 1.2em;
   text-align: center;
   color: #424650;
   text-decoration: none;
   position: relative;
   font-size: 16px;
-  border-color: #fff;
-  color: #424650;
-  background: #fff;
   transition: all 200ms;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  padding-left: 38px;
-  padding-right: 38px;
 }
 .btn.btn_outline {
   background: transparent;
@@ -491,7 +485,6 @@ textarea {
   }
 }
 .btn_default {
-  border-color: #fff;
   color: #8e9096;
   background: #fff;
   transition: all 200ms;
@@ -785,7 +778,6 @@ select {
   box-sizing: border-box;
   min-width: 250px;
   color: #777;
-  padding-left: 25px;
 }
 select:focus {
   outline: none;
@@ -828,7 +820,7 @@ select + select {
   width: 100%;
   box-sizing: border-box;
   padding: 5px 25px;
-  border-radius: 0px;
+  border-radius: 0;
   border: 1px solid #e0e0e0;
   font-size: 18px;
   background-color: #f9fafc;
@@ -844,10 +836,8 @@ select + select {
   width: 100%;
   height: 112px;
   box-sizing: border-box;
-  padding: 5px 25px;
-  padding-top: 18px;
-  padding-bottom: 18px;
-  border-radius: 0px;
+  padding: 18px 25px;
+  border-radius: 0;
   border: 1px solid #e0e0e0;
   font-size: 18px;
   background-color: #f9fafc;
@@ -864,7 +854,7 @@ select + select {
   height: 56px;
   box-sizing: border-box;
   padding: 5px 21px;
-  border-radius: 0px;
+  border-radius: 0;
   border: 1px solid #e0e0e0;
   background: #f9fafc;
   background: transparent;
@@ -881,7 +871,7 @@ select + select {
   width: 100%;
 }
 .form .form-selectWrap .form-select {
-  padding-right: 0px;
+  padding-right: 0;
 }
 .form .form-selectWrap:after {
   content: '';
@@ -901,6 +891,14 @@ select + select {
 .form-error {
   font-size: 14px;
   color: #f26d7d;
+  line-height: 1.5em;
+}
+.error-list {
+  margin: 0;
+  padding: 0;
+}
+.error-list li:not(:last-child) {
+  margin-bottom: 5px;
 }
 .form-label {
   display: block;
@@ -1126,12 +1124,9 @@ label.toggle {
   width: 0;
   height: 0;
   box-sizing: content-box;
-  width: 0;
-  height: 0;
   border-top: 6px solid transparent;
   border-bottom: 6px solid transparent;
   border-left: 6px solid #3cb878;
-  border-left-width: 6px;
   border-bottom-width: 0;
   z-index: 0;
   transform: Rotate(-110deg);
@@ -1262,7 +1257,7 @@ label.toggle {
 }
 @media screen and (max-width: 990px) {
   .menuModal {
-    height: 0px;
+    height: 0;
     display: block;
     transition: 300ms;
     overflow: hidden;
@@ -1307,7 +1302,7 @@ label.toggle {
 .menuTrigger_OPEN span {
   position: absolute;
   top: 31%;
-  margin-top: 0px;
+  margin-top: 0;
   transform: rotate(45deg);
   box-shadow: none;
   transition: all 0.3s;
@@ -1361,8 +1356,8 @@ label.toggle {
   border: none;
   position: relative;
   display: inline-block;
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-left: 0;
+  padding-right: 0;
   padding-bottom: 5px;
 }
 .menu_vt .menu-link:after {
@@ -1661,7 +1656,7 @@ label.toggle {
   text-shadow: 0 1px 0 rgba(0,0,0,0.4);
   text-decoration: none;
   font-weight: normal;
-  padding: 0 8px 0px;
+  padding: 0 8px 0;
   letter-spacing: -0.5px;
   line-height: 35px;
 }
@@ -1882,8 +1877,8 @@ label.toggle {
 .range .irs-bar:after {
   content: '';
   position: absolute;
-  left: 0px;
-  right: 0px;
+  left: 0;
+  right: 0;
   top: 0;
   bottom: 0;
   display: block;
@@ -2177,7 +2172,7 @@ label.toggle {
     width: auto;
     text-align: left;
     min-width: 20rem;
-    margin-top: 0rem;
+    margin-top: 0;
     margin-bottom: 1rem;
     margin-right: 2rem;
   }
@@ -2195,7 +2190,7 @@ label.toggle {
 }
 @media screen and (max-width: 600px) {
   .row_slider .row-block_awayNext {
-    padding-right: 0rem;
+    padding-right: 0;
   }
 }
 
@@ -2277,7 +2272,6 @@ label.toggle {
   margin-top: 0;
   width: 100%;
   display: block;
-  position: relative;
   position: relative;
 }
 .form_search:before,
