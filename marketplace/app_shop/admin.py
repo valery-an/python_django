@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app_shop.models import Shop, Category, Product
+from app_shop.models import Shop, Category, Product, ProductImage
 
 
 @admin.register(Shop)
@@ -21,7 +21,13 @@ class CategoryAdmin(admin.ModelAdmin):
     list_editable = ['is_active']
 
 
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 0
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'category', 'price', 'amount', 'shop']
     list_filter = ['shop', 'category']
+    inlines = [ProductImageInline]

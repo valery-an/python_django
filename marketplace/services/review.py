@@ -1,26 +1,28 @@
-from django import forms
-from django.db import models
-from app_users.models import AbstractUser
-from app_shop.models import Product
+from django.db.models import QuerySet
+from app_shop.models import Product, Review
+from app_users.models import CustomUser
 
 
-class Review(models.Model):
-    user = models.ForeignKey(AbstractUser, on_delete=models.CASCADE,
-                             verbose_name='пользователь', related_name='reviews')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE,
-                                verbose_name='товар', related_name='reviews')
-    name = models.CharField(max_length=150, blank=True, verbose_name='подпись')
-    email = models.EmailField(blank=True, verbose_name='email')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='дата создания')
-    text = models.TextField(max_length=10000, verbose_name='отзыв')
+class ProductReview:
+    """ Отзывы на товар """
 
-    class Meta:
-        db_table = 'product_reviews'
-        verbose_name = 'отзыв'
-        verbose_name_plural = 'отзывы'
+    def __init__(self, product: Product):
+        self._product = product
 
+    def add_review(self, user: CustomUser, text: str):
+        """ Добавляет отзыв к товару """
+        review = Review.objects.filter(product=self._product, user=user)
+        if not review:
+            Review.objects.create(product=self._product, user=user, text=text)
+            return True
+        return False
 
-class ReviewForm(forms.ModelForm):
-    class Meta:
-        model = Review
-        fields = ('text', 'name', 'email')
+    def get_reviews(self) -> QuerySet:
+        """ Возвращает список отзывов к товару """
+        return Review.objects.filter(product=self._product).\
+            select_related('user').\
+            only('text', 'created_at', 'user__avatar', 'user__first_name')
+
+    def get_reviews_amount(self) -> int:
+        """ Возвращает количество отзывов для товара """
+        return self.get_reviews().count()

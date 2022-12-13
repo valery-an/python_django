@@ -1,0 +1,22 @@
+{% load el_pagination_tags %}
+
+{% paginate reviews %}
+{% for review in reviews %}
+    <div class="Comment">
+      <div class="Comment-column Comment-column_pict">
+        <div class="Comment-avatar" style="background-image: url('{{ review.user.avatar.url }}')"></div>
+      </div>
+      <div class="Comment-column">
+        <header class="Comment-header">
+          <div>
+            <strong class="Comment-title">{{ review.user.first_name }}</strong>
+            <span class="Comment-date">{{ review.created_at|date:"F d / Y / H:i" }}</span>
+          </div>
+        </header>
+        <div class="Comment-content">{{ review.text }}</div>
+      </div>
+    </div>
+{% empty %}
+  <p>Отзывов пока нет, но ваш может стать первым</p>
+{% endfor %}
+{% show_more "Показать ещё" %}
