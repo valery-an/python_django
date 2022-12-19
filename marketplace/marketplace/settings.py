@@ -70,6 +70,7 @@ TEMPLATES = [
             ],
             'libraries': {
                 'filter_tags': 'app_shop.templatetags.filter_tags',
+                'base_tags': 'app_shop.templatetags.base_tags'
             }
         },
     },

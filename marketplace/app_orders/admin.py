@@ -3,7 +3,7 @@ from app_orders.models import Delivery, Order, OrderItem
 
 
 @admin.register(Delivery)
-class AdvertisementAdmin(admin.ModelAdmin):
+class DeliveryAdmin(admin.ModelAdmin):
     list_display = ['type', 'price', 'min_order_cost']
 
 
@@ -13,7 +13,7 @@ class OrderItemInline(admin.TabularInline):
 
 
 @admin.register(Order)
-class AdvertisementAdmin(admin.ModelAdmin):
+class OrderAdmin(admin.ModelAdmin):
     list_display = ['id', 'user', 'cost', 'is_paid', 'delivery']
     list_editable = ['is_paid']
     list_filter = ['user', 'delivery']

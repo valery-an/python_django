@@ -1,5 +1,5 @@
 {% load static %}
-{% load category_tags %}
+{% load base_tags %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -105,12 +105,15 @@
           </div>
         </nav>
         <div class="row-block">
+          {% get_cart request as cart %}
           <div class="CartBlock">
-            <a class="CartBlock-block" href="orders/cart.html">
+            <a class="CartBlock-block" href="{% url 'cart' %}">
               <img class="CartBlock-img" src="{% static 'assets/img/icons/cart.svg' %}" alt="cart.svg"/>
-              <span class="CartBlock-amount">0</span>
+              <span class="CartBlock-amount">{{ cart|length }}</span>
             </a>
-            <div class="CartBlock-block"><span class="CartBlock-price">0&thinsp;₽</span></div>
+            <div class="CartBlock-block">
+              <span class="CartBlock-price">{{ cart.get_total_price }}&nbsp;₽</span>
+            </div>
           </div>
         </div>
         <div class="row-block Header-trigger">

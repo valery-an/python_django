@@ -38,7 +38,7 @@
                 <h2 class="ProductCard-title">{{ product.name }}</h2>
                 <div class="ProductCard-info">
                   <div class="ProductCard-cost">
-                    <div class="ProductCard-price">{{ product.price }}&thinsp;₽</div>
+                    <div class="ProductCard-price">{{ product.price }}&nbsp;₽</div>
                   </div>
                 </div>
               </div>
@@ -54,7 +54,7 @@
                   </div>
                 </div>
                 <div class="ProductCard-cartElement">
-                  <a class="btn btn_primary" href="#">
+                  <a class="btn btn_primary" href="{% url 'add_product' product.id %}">
                     <img class="btn-icon" src="{% static 'assets/img/icons/card/cart_white.svg' %}" alt="cart_white.svg"/>
                     <span class="btn-content">В корзину</span>
                   </a>

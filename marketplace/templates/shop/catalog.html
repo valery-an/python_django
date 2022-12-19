@@ -77,12 +77,12 @@
                   <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
                 </strong>
                 <div class="Card-description">
-                  <div class="Card-cost"><span class="Card-price">{{ product.price }}&thinsp;₽</span></div>
+                  <div class="Card-cost"><span class="Card-price">{{ product.price }}&nbsp;₽</span></div>
                   <div class="Card-category">
                     <span><b>Отзывы: {{ product.reviews__count }}</b></span>
                   </div>
                   <div class="Card-hover">
-                    <a class="Card-btn" href="#">
+                    <a class="Card-btn" href="{% url 'add_product' product.id %}">
                       <img src="{% static 'assets/img/icons/card/cart.svg' %}" alt="cart.svg"/>
                     </a>
                   </div>

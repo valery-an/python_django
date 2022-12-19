@@ -312,44 +312,6 @@ var table = function(){
     };
 };
 table().init();
-
-// $("a[href*='sort=ascending']").each(function() {
-//     $('.Sort-sortBy').addClass('Sort-sortBy_inc');
-// });
-//
-// $('.Sort-sortBy').on('click', function() {
-//     const link = $(this).attr("href").split("&order_by=");
-//     let new_link = "";
-//
-//     $(".Sort-sortBy_dec").not($(this)).removeClass("Sort-sortBy_dec")
-//     $(".Sort-sortBy_inc").not($(this)).removeClass("Sort-sortBy_inc")
-//
-//     if (!$(this).hasClass("Sort-sortBy_dec") && !$(this).hasClass("Sort-sortBy_inc")) {
-//         $(this).addClass("Sort-sortBy_dec");
-//     } else {
-//         if ($(this).hasClass("Sort-sortBy_dec")) {
-//             $(this).removeClass("Sort-sortBy_dec")
-//             $(this).addClass("Sort-sortBy_inc")
-//
-//             if (link.length) {
-//                 if (link[1][0] !== "-") {
-//                     new_link = link[0] + "&order_by=-" + link[1];
-//                 }
-//             }
-//         } else if ($(this).hasClass("Sort-sortBy_inc")) {
-//             $(this).removeClass("Sort-sortBy_inc")
-//             $(this).addClass("Sort-sortBy_dec")
-//
-//             if (link.length) {
-//                 if (link[1][0] === "-") {
-//                     new_link = link[0] + "&order_by=" + link[1].slice(1);
-//                 }
-//             }
-//         }
-//
-//         $(this).attr("href", new_link);
-//     }
-// });
 //END
 var PanelAdd = function(){
     return {
@@ -701,13 +663,13 @@ var Amount = function(){
                 e.preventDefault();
                 var $inputThis = $(this).siblings($input).filter($input);
                 var value = parseFloat($inputThis.val());
-                $inputThis.val( value + 1);
+                $inputThis.val(value + 1);
             });
             $remove.on('click', function(e){
                 e.preventDefault();
                 var $inputThis = $(this).siblings($input).filter($input);
                 var value = parseFloat($inputThis.val());
-                $inputThis.val(value>0?value - 1:0);
+                $inputThis.val(value>1?value - 1:1);
             });
         }
     };
