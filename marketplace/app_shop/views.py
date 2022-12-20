@@ -1,14 +1,27 @@
 from django.contrib import messages
 from django.db.models import Min, Max, Q, Count
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView
-from app_shop.models import Shop, Product
+from django.views.generic import TemplateView, ListView, DetailView
+
+from app_shop.models import Shop, Category, Product
+
 from services.review import ProductReview
+from services.viewed_products import History
 
 
-def main_view(request):
+class MainView(TemplateView):
     """ Главная страница """
-    return render(request, 'shop/main.html')
+    template_name = 'shop/main.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        selected_categories = Category.objects.filter(is_active=True).order_by('?').annotate(price_min=Min('products__price'))[:3]
+        popular_products = Product.objects.annotate(num_orders=Count('order_items')).order_by('-num_orders')[:8]
+        limited_products = Product.objects.order_by('amount')[:16]
+        context['selected_categories'] = selected_categories
+        context['popular_products'] = popular_products
+        context['limited_products'] = limited_products
+        return context
 
 
 class ProductListView(ListView):
@@ -33,7 +46,7 @@ class ProductListView(ListView):
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self, *args, **kwargs):
-        queryset = self.products.annotate(Count('reviews'))
+        queryset = self.products.annotate(reviews_amount=Count('reviews'), orders_amount=Count('order_items'))
         price_range = self.request.GET.get('price')
         if price_range:
             price_range = price_range.split(';')
@@ -87,6 +100,7 @@ class ProductDetailView(DetailView):
     reviews_template = 'shop/reviews.html'
 
     def get(self, request, *args, **kwargs):
+        History(request.user).add_product(self.get_object())
         if request.is_ajax():
             self.template_name = self.reviews_template
         return super().get(request, *args, **kwargs)
