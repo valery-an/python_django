@@ -1,11 +1,15 @@
+import re
+
 from django import forms
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, SetPasswordForm
 from django.core.exceptions import ValidationError
+
 from app_users.models import CustomUser
 
 
 class LoginForm(AuthenticationForm):
+    """ Форма аутентификации пользователя """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
@@ -14,17 +18,17 @@ class LoginForm(AuthenticationForm):
 
 
 class ProfileForm(forms.ModelForm):
+    """ Форма профиля пользователя """
     first_name = forms.CharField(required=True, label='ФИО')
-    email = forms.CharField(
+    email = forms.EmailField(
         required=True,
         label='E-mail',
-        error_messages={'unique': 'Пользователь с таким e-mail уже существует'}
+        error_messages={'unique': 'Пользователь с таким e-mail уже существует.'}
     )
     phone_number = forms.CharField(
         required=True,
         label='Телефон',
-        error_messages={'max_length': '',
-                        'unique': 'Пользователь с таким номером телефона уже существует'}
+        error_messages={'max_length': '', 'unique': 'Пользователь с таким номером телефона уже существует.'}
     )
     avatar = forms.ImageField(required=False, label='Аватар')
 
@@ -42,17 +46,15 @@ class ProfileForm(forms.ModelForm):
         self.fields['phone_number'].widget.attrs['placeholder'] = '+70000000000'
 
     def clean_phone_number(self):
-        phone_number = self.cleaned_data['phone_number']
-        if not phone_number.startswith('+7'):
-            raise ValidationError('Номер телефона должен начинаться с +7')
-        if not phone_number[1:].isdigit():
-            raise ValidationError('Номер телефона должен состоять из цифр')
-        if len(phone_number) != 12:
-            raise ValidationError('Номер телефона должен состоять из 10 цифр')
+        raw_phone_number = self.cleaned_data['phone_number']
+        phone_number = re.sub(r'\D', '', raw_phone_number)[1:]
+        if not re.fullmatch(r'\d{10}', phone_number):
+            raise ValidationError('Номер телефона должен состоять из 10 цифр.')
         return phone_number
 
 
 class RegisterForm(ProfileForm, UserCreationForm):
+    """ Форма регистрации пользователя """
     class Meta:
         model = CustomUser
         fields = ('first_name', 'email', 'phone_number', 'password1', 'password2', 'avatar')
@@ -64,6 +66,7 @@ class RegisterForm(ProfileForm, UserCreationForm):
 
 
 class PasswordEditForm(SetPasswordForm):
+    """ Форма изменения пароля пользователя """
     new_password1 = forms.CharField(
         label='Пароль',
         strip=False,

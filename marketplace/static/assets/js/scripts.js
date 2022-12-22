@@ -164,7 +164,7 @@ var form = function(){
                     switch (v){
                         case 'require':
                             if (!$this.val()) {
-                                message = 'Это поле обязательно для заполнения';
+                                message = 'Это поле обязательно для заполнения.';
                                 error = true;
                             }
                             break;
@@ -172,7 +172,7 @@ var form = function(){
                             var val = $this.val().replace(' ', '');
                             val = val + '';
                             if (parseFloat(val)%2!==0) {
-                                message += 'Номер должен быть четным';
+                                message += 'Номер должен быть четным.';
                                 error = true;
                             }
                             break;
