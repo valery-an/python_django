@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
+
 from app_users.forms import LoginForm, ProfileForm, RegisterForm, PasswordEditForm
 
 
@@ -27,7 +28,6 @@ def register_view(request):
             raw_password = register_form.cleaned_data.get('password1')
             user = authenticate(email=email, password=raw_password)
             login(request, user)
-            return redirect('main')
         else:
             for field in register_form.errors:
                 register_form[field].field.widget.attrs['class'] += ' form-input_error'
@@ -48,16 +48,28 @@ def profile_view(request):
     if request.method == 'POST':
         profile_form = ProfileForm(request.POST, request.FILES, instance=request.user)
         password_form = PasswordEditForm(request.user, request.POST)
-        if profile_form.is_valid() and password_form.is_valid():
+        new_password1 = request.POST.get('new_password1')
+        new_password2 = request.POST.get('new_password2')
+        if profile_form.is_valid():
             profile_form.save()
-            password_form.save()
             messages.success(request, 'Профиль успешно сохранен')
-            return redirect('profile')
+            if new_password1 or new_password2:
+                if password_form.is_valid():
+                    password_form.save()
+                    messages.success(request, 'Пароль успешно изменён')
+                    email = profile_form.cleaned_data.get('email')
+                    raw_password = password_form.cleaned_data.get('new_password1')
+                    user = authenticate(email=email, password=raw_password)
+                    login(request, user)
+                    return redirect('profile')
+                else:
+                    for field in password_form.errors:
+                        password_form[field].field.widget.attrs['class'] += ' form-input_error'
+            else:
+                return redirect('profile')
         else:
             for field in profile_form.errors:
                 profile_form[field].field.widget.attrs['class'] += ' form-input_error'
-            for field in password_form.errors:
-                password_form[field].field.widget.attrs['class'] += ' form-input_error'
     else:
         profile_form = ProfileForm(instance=request.user)
         password_form = PasswordEditForm(user=request.user)

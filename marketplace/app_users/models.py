@@ -8,8 +8,9 @@ class CustomUser(AbstractUser):
     username = models.CharField(_("username"), max_length=150, blank=True)
     email = models.EmailField(_("email address"), unique=True)
     last_name = None
-    phone_number = models.CharField(max_length=12, unique=True, verbose_name='телефон')
-    avatar = models.ImageField(upload_to='avatars/', default='avatars/no_image.jpg',
+    phone_number = models.CharField(max_length=10, unique=True, verbose_name='телефон')
+    avatar = models.ImageField(upload_to='avatars/',
+                               default='avatars/no_image.jpg',
                                verbose_name='фотография профиля')
 
     USERNAME_FIELD = 'email'
@@ -21,7 +22,9 @@ class CustomUser(AbstractUser):
 
 class Address(models.Model):
     """ Модель адреса пользователя """
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='пользователь',
+    user = models.ForeignKey(CustomUser,
+                             on_delete=models.CASCADE,
+                             verbose_name='пользователь',
                              related_name='addresses')
     name = models.CharField(max_length=50, verbose_name='название')
     region = models.CharField(max_length=150, verbose_name='регион')

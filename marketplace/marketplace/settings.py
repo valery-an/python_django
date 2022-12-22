@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'el_pagination',
+    'spurl',
     'app_shop.apps.AppShopConfig',
     'app_orders.apps.AppOrdersConfig',
     'app_users.apps.AppUsersConfig',
@@ -66,6 +68,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+                'filter_tags': 'app_shop.templatetags.filter_tags',
+                'base_tags': 'app_shop.templatetags.base_tags'
+            }
         },
     },
 ]
@@ -145,3 +151,5 @@ MEDIA_URL = '/media/'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'main'
 LOGOUT_REDIRECT_URL = 'main'
+
+EL_PAGINATION_PER_PAGE = 3

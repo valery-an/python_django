@@ -159,12 +159,12 @@ var form = function(){
                     validate = $this.data('validate'),
                     message = '',
                     error = false;
-                // validate = validate.split(' ');
+                validate = validate.split(' ');
                 validate.forEach(function(v){
                     switch (v){
                         case 'require':
                             if (!$this.val()) {
-                                message = 'Это поле обязательно для заполнения';
+                                message = 'Это поле обязательно для заполнения.';
                                 error = true;
                             }
                             break;
@@ -172,7 +172,7 @@ var form = function(){
                             var val = $this.val().replace(' ', '');
                             val = val + '';
                             if (parseFloat(val)%2!==0) {
-                                message += 'Номер должен быть четным';
+                                message += 'Номер должен быть четным.';
                                 error = true;
                             }
                             break;
@@ -292,12 +292,12 @@ var range = function(){
             $line.ionRangeSlider({
                 onStart: function(data){
                     $('.rangePrice').text(
-                        '$' + data.from + ' - $' + data.to
+                        data.from + ' ₽ - ' + data.to + ' ₽'
                     )
                 },
                 onChange: function(data){
                     $('.rangePrice').text(
-                        '$' + data.from + ' - $' + data.to
+                        data.from + ' ₽ - ' + data.to + ' ₽'
                     )
                 }
             });
@@ -663,13 +663,13 @@ var Amount = function(){
                 e.preventDefault();
                 var $inputThis = $(this).siblings($input).filter($input);
                 var value = parseFloat($inputThis.val());
-                $inputThis.val( value + 1);
+                $inputThis.val(value + 1);
             });
             $remove.on('click', function(e){
                 e.preventDefault();
                 var $inputThis = $(this).siblings($input).filter($input);
                 var value = parseFloat($inputThis.val());
-                $inputThis.val(value>0?value - 1:0);
+                $inputThis.val(value>1?value - 1:1);
             });
         }
     };

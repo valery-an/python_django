@@ -12,7 +12,7 @@ class Delivery(models.Model):
     class Meta:
         db_table = 'delivery'
         verbose_name = 'доставка'
-        verbose_name_plural = 'доставка'
+        verbose_name_plural = 'доставки'
 
     def __str__(self):
         return self.type
@@ -20,19 +20,17 @@ class Delivery(models.Model):
 
 class Order(models.Model):
     """ Модель заказа """
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,
-                             verbose_name='пользователь', related_name='orders')
-    address = models.ForeignKey(Address, on_delete=models.CASCADE,
-                                verbose_name='адрес', related_name='orders')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='пользователь')
+    address = models.ForeignKey(Address, on_delete=models.CASCADE, verbose_name='адрес')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='дата создания')
     cost = models.PositiveIntegerField(default=0, verbose_name='стоимость')
     is_paid = models.BooleanField(default=False, verbose_name='оплачено')
-    delivery = models.ForeignKey(Delivery, on_delete=models.CASCADE,
-                                 verbose_name='способ доставки', related_name='orders')
+    delivery = models.ForeignKey(Delivery, on_delete=models.CASCADE, verbose_name='способ доставки')
     comment = models.TextField(max_length=5000, verbose_name='комментарий')
 
     class Meta:
         db_table = 'orders'
+        default_related_name = 'orders'
         ordering = ['-created_at']
         verbose_name = 'заказ'
         verbose_name_plural = 'заказы'

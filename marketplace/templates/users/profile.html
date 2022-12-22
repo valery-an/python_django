@@ -117,3 +117,12 @@
     </div>
   </div>
 {% endblock %}
+{% block js %}
+  {{ block.super }}
+  <script src="{% static 'assets/js/jquery.maskedinput.min.js' %}"></script>
+  <script>
+  $(function() {
+    $("#id_phone_number").mask("+7 (999) 999-99-99");
+  });
+  </script>
+{% endblock %}

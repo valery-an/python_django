@@ -900,6 +900,13 @@ select + select {
 .error-list li:not(:last-child) {
   margin-bottom: 5px;
 }
+.errorlist {
+  margin: 0;
+  padding: 0;
+}
+.errorlist li:not(:last-child) {
+  margin-bottom: 5px;
+}
 .form-label {
   display: block;
   color: #71747a;
@@ -987,6 +994,10 @@ select + select {
 }
 label.toggle {
   cursor: pointer;
+  display: block;
+}
+label.toggle:not(:last-child) {
+  margin-bottom: 5px;
 }
 .toggle .toggle-text {
   display: inline;
