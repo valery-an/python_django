@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.db.models import Min, Max, Q, Count
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, ListView, DetailView
 
 from app_shop.models import Shop, Category, Product
@@ -16,8 +16,9 @@ class MainView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         selected_categories = Category.objects.filter(is_active=True).order_by('?').annotate(price_min=Min('products__price'))[:3]
-        popular_products = Product.objects.annotate(num_orders=Count('order_items')).order_by('-num_orders')[:8]
-        limited_products = Product.objects.order_by('amount')[:16]
+        products = Product.objects.filter(amount__gte=1).defer('description', 'parameters')
+        popular_products = products.annotate(num_orders=Count('order_items')).order_by('-num_orders')[:8]
+        limited_products = products.order_by('amount')[:16]
         context['selected_categories'] = selected_categories
         context['popular_products'] = popular_products
         context['limited_products'] = limited_products
@@ -39,8 +40,8 @@ class ProductListView(ListView):
         self.price_range = None
 
     def get(self, request, *args, **kwargs):
-        pk = self.kwargs.get('pk')
-        self.products = Product.objects.filter(category=pk, amount__gte=1).defer('description', 'parameters')
+        category = get_object_or_404(Category, name=self.kwargs['category'])
+        self.products = Product.objects.filter(category=category, amount__gte=1).defer('description', 'parameters')
         shop_ids = self.products.values_list('shop', flat=True)
         self.shops = Shop.objects.filter(id__in=shop_ids).only('name')
         return super().get(request, *args, **kwargs)

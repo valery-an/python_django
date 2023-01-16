@@ -152,4 +152,13 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'main'
 LOGOUT_REDIRECT_URL = 'main'
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
 EL_PAGINATION_PER_PAGE = 3

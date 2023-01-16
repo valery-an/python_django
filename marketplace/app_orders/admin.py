@@ -14,7 +14,7 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'cost', 'is_paid', 'delivery']
-    list_editable = ['is_paid']
-    list_filter = ['user', 'delivery']
+    list_display = ['id', 'user', 'cost', 'status', 'delivery']
+    list_filter = ['user', 'status', 'delivery']
+    readonly_fields = ['created_at']
     inlines = [OrderItemInline]

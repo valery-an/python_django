@@ -30,4 +30,5 @@ class ProductImageInline(admin.TabularInline):
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'category', 'price', 'amount', 'shop']
     list_filter = ['shop', 'category']
+    readonly_fields = ['added_at']
     inlines = [ProductImageInline]

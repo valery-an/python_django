@@ -32,7 +32,7 @@
                 <a class="Cart-title" href="{{ product.get_absolute_url }}">{{ product.name }}</a>
               </div>
               <div class="Cart-block Cart-block_price">
-                <div class="Cart-price">{{ item.price }}&nbsp;₽</div>
+                <div class="Cart-price">{{ product.price }}&nbsp;₽</div>
               </div>
             </div>
             <div class="Cart-block Cart-block_row">
@@ -62,7 +62,7 @@
               <span class="Cart-price">{{ cart.get_total_price }}&thinsp;₽</span>
             </div>
             <div class="Cart-block">
-              <a class="btn btn_success btn_lg" href="#">Оформить заказ</a>
+              <a class="btn btn_success btn_lg" href="{% url 'create_order' %}">Оформить заказ</a>
             </div>
           </div>
         </form>

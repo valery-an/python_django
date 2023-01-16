@@ -696,7 +696,7 @@ var Order = function(){
                         }
                     });
                 }
-                if ( error===false && ($(e.target).is('.Order-next') ||
+                if (error===false && ($(e.target).is('.Order-next') ||
                     $blocks.index($(href)) < $blocks.index($blocks.filter('.Order-block_OPEN')))
                 ) {
                     $blocks.removeClass('Order-block_OPEN');
@@ -706,7 +706,36 @@ var Order = function(){
                         .closest('.menu-item')
                         .addClass('menu-item_ACTIVE');
                 }
-                
+                if (href === '#step2') {
+                    let $name = $this.closest($blocks).find('#id_first_name'),
+                        $email = $this.closest($blocks).find('#id_email'),
+                        $phone = $this.closest($blocks).find('#id_phone_number');
+                    $name.val($name.val().trim());
+                    $email.val($email.val().trim());
+                    $phone.val($phone.val().trim());
+                }
+                if (href === '#step3') {
+                    let $city = $this.closest($blocks).find('#id_city'),
+                        $address = $this.closest($blocks).find('#id_address');
+                    $city.val($city.val().trim());
+                    $address.val($address.val().trim());
+                }
+                if (href === '#step4') {
+                    let name = $('#id_first_name').val(),
+                        email = $('#id_email').val(),
+                        phone = $('#id_phone_number').val(),
+                        city = $('#id_city').val(),
+                        address = $('#id_address').val(),
+                        delivery = $('input[name="delivery"]:checked').parent().text().trim(),
+                        payment = $('input[name="payment"]:checked').parent().text().trim();
+                    $('.order-name').text(name);
+                    $('.order-email').text(email);
+                    $('.order-phone').text(phone);
+                    $('.order-city').text(city);
+                    $('.order-address').text(address);
+                    $('.order-delivery').text(delivery);
+                    $('.order-payment').text(payment);
+                }
             });
         }
     };

@@ -1,4 +1,5 @@
 {% load static %}
+{% load cache %}
 {% load base_tags %}
 <!DOCTYPE html>
 <html lang="ru">
@@ -155,7 +156,7 @@
         </div>
         <div class="Header-search">
           <div class="search">
-            <form class="form form_search" action="#" method="post">
+            <form class="form form_search" action="#" method="get">
               <input class="search-input" id="query" name="query" type="text" placeholder="Я ищу..."/>
               <button class="search-button" type="submit" name="search" id="search">
                 <img src="{% static 'assets/img/icons/search.svg' %}" alt="search.svg"/>Поиск
@@ -170,6 +171,7 @@
   {% block main %}
   {% endblock %}
 
+  {% cache 1800 footer %}
   <footer class="Footer">
     <div class="wrap">
       <div class="row Footer-main">
@@ -283,6 +285,8 @@
       </div>
     </div>
   </footer>
+  {% endcache %}
+
   {% block js %}
   <script src="{% static 'assets/plg/jQuery/jquery-3.5.0.slim.min.js' %}"></script>
   <script src="{% static 'assets/plg/form/jquery.form.js' %}"></script>
