@@ -26,17 +26,17 @@
             <div class="Section-columnContent">
               <div class="NavigateProfile">
                 <ul class="menu menu_vt">
-                  <li class="menu-item_ACTIVE menu-item">
+                  <li class="menu-item">
                     <a class="menu-link" href="{% url 'account' %}">Личный кабинет</a>
                   </li>
                   <li class="menu-item">
                     <a class="menu-link" href="{% url 'profile' %}">Профиль</a>
                   </li>
-                  <li class="menu-item">
+                  <li class="menu-item_ACTIVE menu-item">
                     <a class="menu-link" href="{% url 'order_history' %}">История заказов</a>
                   </li>
                   <li class="menu-item">
-                    <a class="menu-link" href="#">История просмотра</a>
+                    <a class="menu-link" href="{% url 'product_history' %}">История просмотра</a>
                   </li>
                 </ul>
               </div>

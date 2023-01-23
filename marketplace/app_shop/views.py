@@ -3,7 +3,7 @@ from django.db.models import Min, Max, Q, Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, ListView, DetailView
 
-from app_shop.models import Shop, Category, Product
+from app_shop.models import Shop, Category, Product, ProductViewed
 
 from services.review import ProductReview
 from services.viewed_products import History
@@ -91,6 +91,18 @@ class ProductListView(ListView):
         return context
 
 
+class ProductHistoryListView(ListView):
+    """
+    Страница просмотренных пользователем товаров
+    с возможностью добавления товара в корзину
+    """
+    template_name = 'shop/product_history.html'
+    context_object_name = 'products_list'
+
+    def get_queryset(self):
+        return History(self.request.user).get_products(products_number=8)
+
+
 class ProductDetailView(DetailView):
     """
     Страница детальной информации о товаре с возможностью
@@ -101,7 +113,9 @@ class ProductDetailView(DetailView):
     reviews_template = 'shop/reviews.html'
 
     def get(self, request, *args, **kwargs):
-        History(request.user).add_product(self.get_object())
+        history = History(request.user)
+        history.add_product(self.get_object())
+        history.delete_products()
         if request.is_ajax():
             self.template_name = self.reviews_template
         return super().get(request, *args, **kwargs)

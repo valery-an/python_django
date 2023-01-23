@@ -5,4 +5,5 @@ urlpatterns = [
     path('', MainView.as_view(), name='main'),
     path('catalog/<category>/', ProductListView.as_view(), name='catalog'),
     path('product/<int:pk>/', ProductDetailView.as_view(), name='product'),
+    path('product/history/', ProductHistoryListView.as_view(), name='product_history'),
 ]
