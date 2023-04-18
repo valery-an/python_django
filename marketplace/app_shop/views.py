@@ -3,7 +3,7 @@ from django.db.models import Min, Max, Q, Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, ListView, DetailView
 
-from app_shop.models import Shop, Category, Product, ProductViewed
+from app_shop.models import Shop, Category, Product
 
 from services.review import ProductReview
 from services.viewed_products import History
@@ -83,6 +83,13 @@ class ProductListView(ListView):
         else:
             price_from = min_price
             price_to = max_price
+        ordering = self.get_ordering()
+        if ordering and ordering.startswith('-'):
+            sort_class = 'Sort-sortBy_inc'
+            ordering = ordering[1:]
+        else:
+            sort_class = 'Sort-sortBy_dec'
+        context[f'{ordering}_sort'] = sort_class
         context['min_price'] = min_price
         context['max_price'] = max_price
         context['price_from'] = price_from

@@ -728,13 +728,13 @@ var Order = function(){
                         address = $('#id_address').val(),
                         delivery = $('input[name="delivery"]:checked').parent().text().trim(),
                         payment = $('input[name="payment"]:checked').parent().text().trim();
-                    $('.order-name').text(name);
-                    $('.order-email').text(email);
-                    $('.order-phone').text(phone);
-                    $('.order-city').text(city);
-                    $('.order-address').text(address);
-                    $('.order-delivery').text(delivery);
-                    $('.order-payment').text(payment);
+                    $('.js-order-name').text(name);
+                    $('.js-order-email').text(email);
+                    $('.js-order-phone').text(phone);
+                    $('.js-order-city').text(city);
+                    $('.js-order-address').text(address);
+                    $('.js-order-delivery').text(delivery);
+                    $('.js-order-payment').text(payment);
                 }
             });
         }

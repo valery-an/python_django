@@ -37,8 +37,7 @@ class Order(models.Model):
     cost = models.PositiveIntegerField(default=0, verbose_name='стоимость')
     delivery = models.ForeignKey(Delivery, on_delete=models.DO_NOTHING, default=1, verbose_name='способ доставки')
     payment = models.CharField(choices=PAYMENT_CHOICES, max_length=20, default='card', verbose_name='способ оплаты')
-    payment_error = models.PositiveSmallIntegerField(choices=ERROR_CHOICES, default=0,
-                                                     verbose_name='ошибка заказа')
+    payment_error = models.PositiveSmallIntegerField(choices=ERROR_CHOICES, default=0, verbose_name='ошибка заказа')
     status = models.CharField(choices=STATUS_CHOICES, max_length=20, default='not_paid', verbose_name='статус оплаты')
     comment = models.TextField(max_length=5000, verbose_name='комментарий', blank=True)
 
@@ -50,7 +49,7 @@ class Order(models.Model):
         verbose_name_plural = 'заказы'
 
     def __str__(self):
-        return f'Заказ {self.id}. Пользователь: {self.user}.'
+        return f'Заказ №{self.id} от {self.created_at}.'
 
     def get_absolute_url(self):
         return reverse('one_order', args=[self.id])

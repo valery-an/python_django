@@ -62,10 +62,10 @@
           <div class="Sort">
             <div class="Sort-title">Сортировать по:</div>
             <div class="Sort-variants">
-              <a class="Sort-sortBy" href="{% spurl base=request.get_full_path set_query='order_by=orders_amount' toggle_query='sort=ascending,descending'%}">Популярности</a>
-              <a class="Sort-sortBy" href="{% spurl base=request.get_full_path set_query='order_by=price' toggle_query='sort=ascending,descending'%}">Цене</a>
-              <a class="Sort-sortBy" href="{% spurl base=request.get_full_path set_query='order_by=reviews_amount' toggle_query='sort=ascending,descending'%}">Отзывам</a>
-              <a class="Sort-sortBy" href="{% spurl base=request.get_full_path set_query='order_by=added_at' toggle_query='sort=ascending,descending'%}">Новизне</a>
+              <a class="Sort-sortBy {{orders_amount_sort}}" href="{% spurl base=request.get_full_path set_query='order_by=orders_amount' toggle_query='sort=ascending,descending'%}">Популярности</a>
+              <a class="Sort-sortBy {{price_sort}}" href="{% spurl base=request.get_full_path set_query='order_by=price' toggle_query='sort=ascending,descending'%}">Цене</a>
+              <a class="Sort-sortBy {{reviews_amount_sort}}" href="{% spurl base=request.get_full_path set_query='order_by=reviews_amount' toggle_query='sort=ascending,descending'%}">Отзывам</a>
+              <a class="Sort-sortBy {{added_at_sort}}" href="{% spurl base=request.get_full_path set_query='order_by=added_at' toggle_query='sort=ascending,descending'%}">Новизне</a>
             </div>
           </div>
           <div class="Cards">
@@ -90,7 +90,7 @@
               </div>
             </div>
             {% empty %}
-            <p>По вашему запросу товаров сейчас нет</p>
+            <p style="text-align: center">По вашему запросу товаров сейчас нет</p>
             {% endfor %}
           </div>
           <div class="Pagination">
