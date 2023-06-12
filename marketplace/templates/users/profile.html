@@ -33,10 +33,10 @@
                     <a class="menu-link" href="{% url 'profile' %}">Профиль</a>
                   </li>
                   <li class="menu-item">
-                    <a class="menu-link" href="#">История заказов</a>
+                    <a class="menu-link" href="{% url 'order_history' %}">История заказов</a>
                   </li>
                   <li class="menu-item">
-                    <a class="menu-link" href="#">История просмотра</a>
+                    <a class="menu-link" href="{% url 'product_history' %}">История просмотра</a>
                   </li>
                 </ul>
               </div>
@@ -119,7 +119,6 @@
 {% endblock %}
 {% block js %}
   {{ block.super }}
-  <script src="{% static 'assets/js/jquery.maskedinput.min.js' %}"></script>
   <script>
   $(function() {
     $("#id_phone_number").mask("+7 (999) 999-99-99");

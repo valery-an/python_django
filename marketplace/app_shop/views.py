@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.db.models import Min, Max, Q, Count
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, ListView, DetailView
 
 from app_shop.models import Shop, Category, Product
@@ -16,8 +16,9 @@ class MainView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         selected_categories = Category.objects.filter(is_active=True).order_by('?').annotate(price_min=Min('products__price'))[:3]
-        popular_products = Product.objects.annotate(num_orders=Count('order_items')).order_by('-num_orders')[:8]
-        limited_products = Product.objects.order_by('amount')[:16]
+        products = Product.objects.filter(amount__gte=1).defer('description', 'parameters')
+        popular_products = products.annotate(num_orders=Count('order_items')).order_by('-num_orders')[:8]
+        limited_products = products.order_by('amount')[:16]
         context['selected_categories'] = selected_categories
         context['popular_products'] = popular_products
         context['limited_products'] = limited_products
@@ -39,8 +40,8 @@ class ProductListView(ListView):
         self.price_range = None
 
     def get(self, request, *args, **kwargs):
-        pk = self.kwargs.get('pk')
-        self.products = Product.objects.filter(category=pk, amount__gte=1).defer('description', 'parameters')
+        category = get_object_or_404(Category, name=self.kwargs['category'])
+        self.products = Product.objects.filter(category=category, amount__gte=1).defer('description', 'parameters')
         shop_ids = self.products.values_list('shop', flat=True)
         self.shops = Shop.objects.filter(id__in=shop_ids).only('name')
         return super().get(request, *args, **kwargs)
@@ -82,12 +83,31 @@ class ProductListView(ListView):
         else:
             price_from = min_price
             price_to = max_price
+        ordering = self.get_ordering()
+        if ordering and ordering.startswith('-'):
+            sort_class = 'Sort-sortBy_inc'
+            ordering = ordering[1:]
+        else:
+            sort_class = 'Sort-sortBy_dec'
+        context[f'{ordering}_sort'] = sort_class
         context['min_price'] = min_price
         context['max_price'] = max_price
         context['price_from'] = price_from
         context['price_to'] = price_to
         context['shops'] = self.shops
         return context
+
+
+class ProductHistoryListView(ListView):
+    """
+    Страница просмотренных пользователем товаров
+    с возможностью добавления товара в корзину
+    """
+    template_name = 'shop/product_history.html'
+    context_object_name = 'products_list'
+
+    def get_queryset(self):
+        return History(self.request.user).get_products(products_number=8)
 
 
 class ProductDetailView(DetailView):
@@ -100,7 +120,9 @@ class ProductDetailView(DetailView):
     reviews_template = 'shop/reviews.html'
 
     def get(self, request, *args, **kwargs):
-        History(request.user).add_product(self.get_object())
+        history = History(request.user)
+        history.add_product(self.get_object())
+        history.delete_products()
         if request.is_ajax():
             self.template_name = self.reviews_template
         return super().get(request, *args, **kwargs)

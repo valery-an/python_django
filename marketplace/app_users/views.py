@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
 
+from app_orders.models import Order
 from app_users.forms import LoginForm, ProfileForm, RegisterForm, PasswordEditForm
 
 
@@ -39,7 +40,8 @@ def register_view(request):
 @login_required
 def account_view(request):
     """ Страница личного кабинета пользователя """
-    return render(request, 'users/account.html', context={'user': request.user})
+    order = Order.objects.filter(user=request.user).first()
+    return render(request, 'users/account.html', context={'user': request.user, 'order': order})
 
 
 @login_required

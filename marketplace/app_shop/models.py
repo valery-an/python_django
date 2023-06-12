@@ -38,7 +38,7 @@ class Category(models.Model):
         verbose_name_plural = 'категории'
 
     def get_absolute_url(self):
-        return reverse('catalog', args=[self.id])
+        return reverse('catalog', args=[self.name])
 
 
 class Product(models.Model):

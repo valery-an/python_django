@@ -15,7 +15,7 @@ class Cart:
     def __iter__(self):
         """ Перебор элементов в корзине и получение товаров из базы данных """
         product_ids = self.cart.keys()
-        products = Product.objects.filter(id__in=product_ids).only('name')
+        products = Product.objects.filter(id__in=product_ids).only('id', 'name')
         for product in products:
             self.cart[str(product.id)]['product'] = product
         for item in self.cart.values():
@@ -26,19 +26,25 @@ class Cart:
         return sum(item['quantity'] for item in self.cart.values())
 
     def add(self, product_id: int, quantity: int = 1):
-        """ Добавление товара в корзину или обновление его количества """
+        """ Добавление товара в корзину """
         product_price = get_object_or_404(Product, id=product_id).price
-        product_amount = get_object_or_404(Product, id=product_id).amount
         product_id = str(product_id)
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': quantity,
                                      'price': product_price}
         else:
-            self.cart[product_id]['quantity'] += quantity
-            if self.cart[product_id]['quantity'] > product_amount:
-                self.cart[product_id]['quantity'] = product_amount
-            if self.cart[product_id]['quantity'] == 0:
-                self.cart[product_id]['quantity'] = 1
+            self.change_amount(int(product_id), quantity)
+        self.save()
+
+    def change_amount(self, product_id: int, quantity: int):
+        """ Обновление количества товара в корзине """
+        product_amount = get_object_or_404(Product, id=product_id).amount
+        product_id = str(product_id)
+        self.cart[product_id]['quantity'] += quantity
+        if self.cart[product_id]['quantity'] > product_amount:
+            self.cart[product_id]['quantity'] = product_amount
+        if self.cart[product_id]['quantity'] == 0:
+            self.remove(int(product_id))
         self.save()
 
     def remove(self, product_id: int):
