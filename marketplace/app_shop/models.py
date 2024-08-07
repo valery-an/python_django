@@ -24,7 +24,7 @@ class Shop(models.Model):
 class Category(models.Model):
     """ Модель категории товара """
     name = models.CharField(max_length=100, verbose_name='название')
-    icon_path = models.FilePathField(path='static/assets/img/icons/departments/', verbose_name='символ')
+    icon_path = models.FilePathField(path='media/departments/', verbose_name='символ')
     sorting_index = models.PositiveSmallIntegerField(unique=True, verbose_name='индекс сортировки')
     is_active = models.BooleanField(default=True, verbose_name='активно')
 

@@ -85,9 +85,9 @@ WSGI_APPLICATION = 'marketplace.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'marketplace_db',
-        'USER': 'postgres',
-        'PASSWORD': 'LkjhGfds',
+        'NAME': 'marketplace',
+        'USER': 'dbuser',
+        'PASSWORD': 'Qwerty!123',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
