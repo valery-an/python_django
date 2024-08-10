@@ -123,7 +123,7 @@ class ProductDetailView(DetailView):
         history = History(request.user)
         history.add_product(self.get_object())
         history.delete_products()
-        if request.is_ajax():
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
             self.template_name = self.reviews_template
         return super().get(request, *args, **kwargs)
 
