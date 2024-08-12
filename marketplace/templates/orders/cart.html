@@ -40,7 +40,7 @@
                 <div class="Cart-amount">
                   <div class="Amount">
                     <button class="Amount-remove" type="button" onclick="location.href='{% url 'reduce_product' product.id %}'"></button>
-                    <input class="Amount-input form-input" name="amount" type="text" value="{{ item.quantity }}""/>
+                    <input class="Amount-input form-input" name="amount" type="text" value="{{ item.quantity }}"/>
                     <button class="Amount-add" type="button" onclick="location.href='{% url 'add_product' product.id %}'"></button>
                   </div>
                 </div>
