@@ -25,6 +25,11 @@ class MainView(TemplateView):
         return context
 
 
+class AboutView(TemplateView):
+    """ Страница о магазине """
+    template_name = 'shop/about.html'
+
+
 class ProductListView(ListView):
     """
     Страница каталога товаров из выбранной категории товаров
@@ -123,7 +128,7 @@ class ProductDetailView(DetailView):
         history = History(request.user)
         history.add_product(self.get_object())
         history.delete_products()
-        if request.is_ajax():
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
             self.template_name = self.reviews_template
         return super().get(request, *args, **kwargs)
 
@@ -152,3 +157,15 @@ class ProductDetailView(DetailView):
         else:
             messages.error(request, 'Отзыв слишком короткий')
         return render(request, self.template_name, context=context)
+
+
+class SaleView(TemplateView):
+    """ Страница о распродажах """
+    template_name = 'shop/sale.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = Product.objects.filter(amount__gte=1).defer('description', 'parameters')
+        sale_products = products.order_by('-amount')[:12]
+        context['sale_products'] = sale_products
+        return context
