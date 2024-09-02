@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -52,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.admindocs.middleware.XViewMiddleware',
 ]
 
 ROOT_URLCONF = 'marketplace.urls'
@@ -113,6 +115,15 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# Login and logout settings
+
+AUTH_USER_MODEL = 'app_users.CustomUser'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'main'
+LOGOUT_REDIRECT_URL = 'main'
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -141,16 +152,8 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'app_users.CustomUser'
 
-CART_SESSION_ID = 'cart'
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
-
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'main'
-LOGOUT_REDIRECT_URL = 'main'
+# Cache and Celery settings
 
 CACHES = {
     'default': {
@@ -160,6 +163,14 @@ CACHES = {
 
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+
+
+# Other settings
+
+CART_SESSION_ID = 'cart'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 FIXTURE_DIRS = ['fixtures']
 

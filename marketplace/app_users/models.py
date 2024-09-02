@@ -14,7 +14,7 @@ class CustomUser(AbstractUser):
                                verbose_name='фотография профиля')
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
     def __str__(self):
         return self.first_name

@@ -10,6 +10,7 @@ click-repl==0.3.0
 Django==4.0.8
 django-el-pagination==4.0.0
 django-spurl==0.6.8
+docutils==0.20.1
 kombu==5.3.7
 Pillow==9.3.0
 prompt_toolkit==3.0.47

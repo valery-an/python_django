@@ -34,13 +34,35 @@ def remove_product_from_cart(request, pk):
 
 
 def cart_view(request):
-    """ Страница корзины """
+    """
+    Страница корзины.
+
+    **Context**
+
+    ``cart``: Экземпляр класса корзины *Cart*, содержит экземпляры модели товара :model:`app_shop.Product`
+
+    **Template:**
+
+    :template:`orders/cart.html`
+    """
     cart = Cart(request)
     return render(request, 'orders/cart.html', {'cart': cart})
 
 
 def create_order_view(request):
-    """ Страница оформления заказа """
+    """
+    Страница оформления заказа.
+
+    **Context**
+
+    - ``cart``: Экземпляр класса корзины *Cart*, содержит экземпляры модели товара :model:`app_shop.Product`
+    - ``form``: Форма модели пользователя :model:`app_users.CustomUser`
+    - ``order_form``: Форма модели заказа :model:`app_orders.Order`
+
+    **Template:**
+
+    :template:`orders/order.html`
+    """
     cart = Cart(request)
     if request.method == 'POST':
         if request.user.is_authenticated:
@@ -83,7 +105,17 @@ def create_order_view(request):
 
 
 def payment_view(request, pk):
-    """ Оплата заказа """
+    """
+    Страница оплаты заказа.
+
+    **Context**
+
+    ``order``: Экземпляр модели заказа :model:`app_orders.Order`
+
+    **Template:**
+
+    :template:`orders/payment.html`
+    """
     order = get_object_or_404(Order, id=pk)
     if request.method == 'POST':
         account = request.POST.get('numero1')
@@ -96,6 +128,17 @@ def payment_view(request, pk):
 
 
 class OrderListView(ListView):
+    """
+    Страница истории заказов пользователя.
+
+    **Context**
+
+    ``orders_list``: Экземпляры модели заказа :model:`app_orders.Order`
+
+    **Template:**
+
+    :template:`orders/order_history.html`
+    """
     template_name = 'orders/order_history.html'
     context_object_name = 'orders_list'
 
@@ -104,6 +147,19 @@ class OrderListView(ListView):
 
 
 class OrderDetailView(DetailView):
+    """
+    Страница детальной информации о заказе.
+
+    **Context**
+
+    - ``order``: Экземпляр модели заказа :model:`app_orders.Order`
+    - ``order_items``: Экземпляры модели строки заказа :model:`app_orders.OrderItem`
+    - ``user``: Экземпляр модели пользователя :model:`app_users.CustomUser`
+
+    **Template:**
+
+    :template:`orders/one_order.html`
+    """
     model = Order
     template_name = 'orders/one_order.html'
     context_object_name = 'order'

@@ -25,8 +25,9 @@ class History:
 
     def delete_products(self):
         """ Удаляет товары из истории просмотров """
-        while len(self) > 8:
-            ProductViewed.objects.filter(user=self.user).last().delete()
+        if self.user.is_authenticated:
+            while len(self) > 8:
+                ProductViewed.objects.filter(user=self.user).last().delete()
 
     def get_products(self, products_number=8) -> QuerySet:
         """ Возвращает последние просмотренные товары """

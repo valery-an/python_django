@@ -10,7 +10,19 @@ from services.viewed_products import History
 
 
 class MainView(TemplateView):
-    """ Главная страница """
+    """
+    Главная страница.
+
+    **Context**
+
+    - ``selected_categories``: Экземпляры модели категории товара :model:`app_shop.Category`
+    - ``popular_products``: Экземпляры модели товара :model:`app_shop.Product`, которые чаще всего заказывают
+    - ``limited_products``: Экземпляры модели товара :model:`app_shop.Product`, у которых меньше остаток на складе
+
+    **Template:**
+
+    :template:`shop/main.html`
+    """
     template_name = 'shop/main.html'
 
     def get_context_data(self, **kwargs):
@@ -26,14 +38,33 @@ class MainView(TemplateView):
 
 
 class AboutView(TemplateView):
-    """ Страница о магазине """
+    """
+    Страница о магазине.
+
+    **Template:**
+
+    :template:`shop/about.html`
+    """
     template_name = 'shop/about.html'
 
 
 class ProductListView(ListView):
     """
     Страница каталога товаров из выбранной категории товаров
-    с возможностью применения фильтров и добавления товара в корзину
+    с возможностью применения фильтров и добавления товара в корзину.
+
+    **Context**
+
+    - ``shops``: Экземпляры модели магазина :model:`app_shop.Shop`
+    - ``min_price``: Минимальная цена всех выбранных продуктов
+    - ``max_price``: Максимальная цена всех выбранных продуктов
+    - ``price_from``: Экземпляры модели товара :model:`app_shop.Product`, цена которых выше заданной
+    - ``price_to``: Экземпляры модели товара :model:`app_shop.Product`, цена которых ниже заданной
+    - ``ordering_sort``: Название css класса сортировки
+
+    **Template:**
+
+    :template:`shop/catalog.html`
     """
     template_name = 'shop/catalog.html'
     paginate_by = 4
@@ -106,7 +137,15 @@ class ProductListView(ListView):
 class ProductHistoryListView(ListView):
     """
     Страница просмотренных пользователем товаров
-    с возможностью добавления товара в корзину
+    с возможностью добавления товара в корзину.
+
+    **Context**
+
+    ``products_list``: Экземпляры модели товара :model:`app_shop.ProductViewed`
+
+    **Template:**
+
+    :template:`shop/product_history.html`
     """
     template_name = 'shop/product_history.html'
     context_object_name = 'products_list'
@@ -118,7 +157,19 @@ class ProductHistoryListView(ListView):
 class ProductDetailView(DetailView):
     """
     Страница детальной информации о товаре с возможностью
-    добавления товара в корзину и добавления к нему отзыва
+    добавления товара в корзину и добавления к нему отзыва.
+
+    **Context**
+
+    - ``images``: Экземпляры модели изображения товара :model:`app_shop.ProductImage`
+    - ``parameters``: свойство *parameters* модели товара :model:`app_shop.Product`
+    - ``reviews``: Экземпляры модели отзыва на товар :model:`app_shop.Review`
+    - ``reviews_amount``: Количество отзывов на товар
+    - ``reviews_template``: Шаблон отзывов на товар :template:`shop/reviews.html`
+
+    **Template:**
+
+    :template:`shop/product.html`
     """
     model = Product
     template_name = 'shop/product.html'
@@ -160,7 +211,17 @@ class ProductDetailView(DetailView):
 
 
 class SaleView(TemplateView):
-    """ Страница о распродажах """
+    """
+    Страница о распродажах.
+
+    **Context**
+
+    ``sale_products``: Экземпляры модели товара :model:`app_shop.Product`, у которых больше остаток на складе
+
+    **Template:**
+
+    :template:`shop/sale.html`
+    """
     template_name = 'shop/sale.html'
 
     def get_context_data(self, **kwargs):
