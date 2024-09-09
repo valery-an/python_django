@@ -26,37 +26,42 @@
 ## Установка
 Скопировать содержимое репозитория в отдельный каталог
 
-Установить все библиотеки из [requirements.txt](requirements.txt)
+Установить сервер Redis и запустить его
 
-Создать и применить миграции:
+Установить [Docker](https://docs.docker.com/engine/install/) и [Docker-Compose](https://docs.docker.com/compose/install/) (процесс установки подробно описан в документации)
+
+Запустить проект с помощью контейнеров:
 ```
-python manage.py makemigrations
-python manage.py migrate
+docker compose up
+```
+Чтобы запустить контейнеры в фоновом режиме, необходимо указать дополнительный аргумент:
+```
+docker compose up -d
+```
+Для того чтобы пересобрать образы, можно выполнить команду:
+```
+docker compose build
+```
+Для удаления контейнеров используется команда:
+```
+docker compose down
 ```
 
 Создать суперпользователя для управления и доступа в админ-панель:
 ```
-python manage.py createsuperuser
+docker compose run web python manage.py createsuperuser
 ```
 *Примечание: при заполнении проекта тестовыми данными нет необходимости вызывать команду createsuperuser, так как он уже там имеется*
 
-Установить сервер Redis и запустить его
-
-Запустить celery следующей командной:
+Если необходимо, в проекте присутствуют фикстуры с тестовыми данными, для их загрузки используйте следующие команды:
 ```
-celery -A marketplace.celery worker -l info
-```
-
-Если необходимо, в проекте присутствуют фикстуры с тестовыми данными, для их загрузки используйте следующую команду:
-```
-python manage.py loaddata fixtures/*.json
+docker compose run web python manage.py loaddata fixtures/app_users.json
+docker compose run web python manage.py loaddata fixtures/app_shop.json
+docker compose run web python manage.py loaddata fixtures/app_orders.json
 ```
 
-Запустить проект:
-```
-python manage.py runserver
-```
+Откройте ссылку http://0.0.0.0:8000/ в браузере, чтобы увидеть приложение в действии
 
-Теперь можно зайти в админ-панель проекта по адресу http://127.0.0.1:8000/admin/
+Или зайдите в админ-панель проекта по адресу http://0.0.0.0:8000/admin/
 
 *В фикстурах суперпользователь **admin@admin.com**, пароль: **admin***

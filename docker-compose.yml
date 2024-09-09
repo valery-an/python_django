@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    container_name: web
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/marketplace
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:15.4
+    container_name: db
+    volumes:
+      - pgdata:/var/lib/pgsql/data
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=marketplace
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=Qwerty!123
+    restart: always
+
+  celery:
+    build: .
+    command: celery -A marketplace.celery worker -l info
+    volumes:
+      - .:/marketplace
+    depends_on:
+      - web
+      - redis
+
+  redis:
+    image: redis:7-alpine
+
+volumes:
+  pgdata:

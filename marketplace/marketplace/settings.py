@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-0ym^d%_cr*d^)3b3^tg#1af8mlk4kna9gx_4(vgs-kbd^9zxnu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0']
 
 
 # Application definition
@@ -86,11 +86,11 @@ WSGI_APPLICATION = 'marketplace.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'marketplace',
         'USER': 'dbuser',
         'PASSWORD': 'Qwerty!123',
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
@@ -161,8 +161,8 @@ CACHES = {
     }
 }
 
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_RESULT_BACKEND = 'redis://redis:6379'
 
 
 # Other settings
